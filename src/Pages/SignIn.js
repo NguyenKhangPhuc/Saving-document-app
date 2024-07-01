@@ -9,11 +9,21 @@ import Introduction from "../Small-Elements/Introduction";
 import { url } from "./ProvidePage";
 import { Container } from "../App";
 function SignIn() {
+    let [data, setData] = useState(null)
     const navigate = useNavigate()
     let { id, setId } = useContext(Container)
     let { list, setList } = useContext(Container)
     let [signInEmail, setSignInEmail] = useState('')
     let [signInPassword, setSignInPassword] = useState('')
+    useEffect(() => {
+        axios.get(url)
+            .then(res => {
+                data = res.data
+                setData(data)
+                console.log(data)
+            })
+            .catch(err => console.log(err))
+    }, [])
     const signIn = async (e) => {
 
         if (!signInEmail || !signInPassword) {
@@ -40,7 +50,7 @@ function SignIn() {
     }
     return (
         <div className="sign_in_layout">
-            <div className="sign_in_details_place">
+            {data ? <div className="sign_in_details_place">
                 <div className="sign_in_img"></div>
                 <div className="sign_in_place">
                     <div className="sign_in_logo">
@@ -64,7 +74,22 @@ function SignIn() {
                     </div>
                 </div>
             </div>
+                :
 
+                <div class="loader">
+                    <p class="text">
+                        <span class="letter letter1">L</span>
+                        <span class="letter letter2">o</span>
+                        <span class="letter letter3">a</span>
+                        <span class="letter letter4">d</span>
+                        <span class="letter letter5">i</span>
+                        <span class="letter letter6">n</span>
+                        <span class="letter letter7">g</span>
+                        <span class="letter letter8">.</span>
+                        <span class="letter letter9">.</span>
+                        <span class="letter letter10">.</span>
+                    </p>
+                </div>}
         </div>
     )
 }
