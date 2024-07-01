@@ -923,6 +923,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    top: 0;
   }
 
   .hamburger_icon {
@@ -931,6 +932,7 @@ label {
     justify-content: center;
     z-index: 10000;
     font-size: 110%;
+
   }
 
   .search_logo {
@@ -977,7 +979,9 @@ label {
 }
 
 @media screen and (max-width: 600px) {
-
+.searching_place{
+  margin-top: 5%;
+}
 
   .activity_title {
     width: 25%;
