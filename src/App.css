@@ -979,9 +979,18 @@ label {
 }
 
 @media screen and (max-width: 600px) {
-.searching_place{
-  margin-top: 5%;
-}
+  .add_item{
+    margin-top: 2%;
+  }
+  .searching_place {
+    margin-top: 6%;
+    border: none;
+  }
+
+  .searching_input {
+    height: 100%;
+    border: 1px solid black;
+  }
 
   .activity_title {
     width: 25%;
@@ -1003,7 +1012,7 @@ label {
 
   .filter_place_mobile {
     width: 100%;
-    min-height: 70vh;
+    min-height: 80vh;
     position: fixed;
     background-color: white;
     display: flex;
