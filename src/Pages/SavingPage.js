@@ -6,8 +6,10 @@ import Header from "../Small-Elements/Header";
 import { url } from "./ProvidePage";
 import searchLogo from "../Imgs/search.png"
 import Introduction from "../Small-Elements/Introduction";
+import { Category } from "./ProvidePage";
 function SavingPage() {
     const navigate = useNavigate()
+
     let [list, setList] = useState([])
     let [listItem, setListItem] = useState([])
     let [data, setData] = useState(null)
@@ -36,6 +38,7 @@ function SavingPage() {
     let [updateEndDate, setUpdateEndDate] = useState('')
     let [updateTitle, setUpdateTitle] = useState('')
     let [showFilter, setShowFilter] = useState(false)
+    let [showCategory, setShowCategory] = useState(false)
     useEffect(() => {
         axios.get(url)
             .then(res => {
@@ -233,6 +236,34 @@ function SavingPage() {
         list = filterActResult
         setList(list)
     }
+
+    const filterChosenItemsAct = async (id) => {
+        const filterAct = listItem.map((item, index) => {
+            if (item.chose == true) {
+                const checkRemoveItem = filterList.some((item2, index) => {
+                    return filterList[index] == item.name
+                })
+                if (checkRemoveItem == false) {
+                    return filterList = [...filterList, `${item.name}`]
+                }
+
+            } else if (item.chose == false) {
+                const checkRemoveItem = filterList.some((item2, index) => {
+                    return filterList[index] == item.name
+                })
+                if (checkRemoveItem == true) {
+                    const removeIndex = filterList.indexOf(item.name)
+                    setFilterList(filterList.splice(removeIndex, 1))
+                }
+            }
+        })
+        setFilterList(filterList)
+        await axios.post(url + '/update-filterList', { id, filterList })
+            .then(result => {
+                console.log(result)
+            })
+            .catch(err => console.log(err))
+    }
     return (
         <div className="saving_page_layout">
             <MobileFilter showFilter={showFilter} setShowFilter={setShowFilter} searchingResult={searchingResult} setShowInput={setShowInput} showInput={showInput} listItem={listItem} addItem={addItem} chosenItem={chosenItem} deleteItem={deleteItem} filterChosenItems={filterChosenItems} setList={setList} data={data} />
@@ -247,13 +278,13 @@ function SavingPage() {
                         <input type="text" placeholder="Nhập tên hoạt động" className="searching_input" onChange={(e) => searchingResult(e.target.value)} />
                     </div>
                     <div className="add_item" onClick={() => setShowInput(!showInput)}>+Thêm mục</div>
-                    {showInput == true && <input type="text" className="add_input" placeholder="Thêm mục" onKeyDown={(e) => { if (e.key == "Enter") { addItem(e.target.value) } }} />}
+                    {showInput == true && <input type="text" className="add_input" placeholder="+Thêm mục" onKeyDown={(e) => { if (e.key == "Enter") { addItem(e.target.value) } }} />}
                     <div className="item_list">
                         {listItem?.map((item, index) => {
                             return (
                                 <div className="item_detail">
                                     <div className="item_title">{index + 1}. {item.name}</div>
-                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>Xóa</button>
                                     {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
 
                                 </div>
@@ -274,104 +305,104 @@ function SavingPage() {
                                 <div className="update_place">
                                     <div className="activity_title">Tên hoạt động</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateTitle(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateTitle(acitivities._id)} >save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateTitle(acitivities._id)} >Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info" >
                                     <div className="activity_title">Tên hoạt động:</div>
                                     <div className="activity_details">{acitivities.actName}</div>
-                                    <div className="update_text" onClick={() => setShowTitle(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowTitle(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showText == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Văn bản:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateText(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateText(acitivities._id)} >save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateText(acitivities._id)} >Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info" >
                                     <div className="activity_title">Văn bản:</div>
                                     <div className="activity_details">{acitivities.actText}</div>
-                                    <div className="update_text" onClick={() => setShowText(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowText(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showImg == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Hình ảnh: </div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateImgs(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateImgs(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateImgs(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Hình ảnh:</div>
                                     <div className="activity_details">{acitivities.actImgs}</div>
-                                    <div className="update_text" onClick={() => setShowImg(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowImg(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showMediaUrl == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Link truyền thông:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateMediaUrl(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateMediaUrl(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateMediaUrl(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Link truyền thông:</div>
                                     <div className="activity_details">{acitivities.mediaUrl}</div>
-                                    <div className="update_text" onClick={() => setShowMediaUrl(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowMediaUrl(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showBrief == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Tóm tắt hoạt động:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateBrief(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateBrief(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateBrief(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Tóm tắt hoạt động:</div>
                                     <div className="activity_details">{acitivities.actBrief}</div>
-                                    <div className="update_text" onClick={() => setShowBrief(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowBrief(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showAssessment == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Đánh giá hoạt động:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateAssessment(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateAssessment(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateAssessment(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Đánh giá hoạt động:</div>
                                     <div className="activity_details">{acitivities.actAssessment}</div>
-                                    <div className="update_text" onClick={() => setShowAssessment(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowAssessment(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showForm == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Hình thức:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateForm(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateForm(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateForm(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Hình thức:</div>
                                     <div className="activity_details">{acitivities.form}</div>
-                                    <div className="update_text" onClick={() => setShowForm(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowForm(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showInteraction == true ?
                                 <div className="update_place">
                                     <div className="activity_title">Lượt tương tác:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateInteract(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateInteract(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateInteract(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Lượt tương tác:</div>
                                     <div className="activity_details">{acitivities.interactionNum}</div>
-                                    <div className="update_text" onClick={() => setShowInteraction(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowInteraction(true)}>sửa</div>
                                 </div>
                             }
                             {showIndex == index && showStartDate == true ?
@@ -384,7 +415,7 @@ function SavingPage() {
                                 <div className="activity_info">
                                     <div className="activity_title">Ngày bắt đầu:</div>
                                     <div className="activity_details">{acitivities.startDate}</div>
-                                    <div className="update_text" onClick={() => setShowStartDate(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowStartDate(true)}>sửa</div>
                                 </div>
                             }
 
@@ -392,13 +423,42 @@ function SavingPage() {
                                 <div className="update_place">
                                     <div className="activity_title"> Ngày kết thúc:</div>
                                     <input type="text" className="update_input" onChange={(e) => setUpdateEndDate(e.target.value)} />
-                                    <button className="save_update_button" onClick={() => saveUpdateEndDate(acitivities._id)}>save</button>
+                                    <button className="save_update_button" onClick={() => saveUpdateEndDate(acitivities._id)}>Lưu</button>
                                 </div>
                                 :
                                 <div className="activity_info">
                                     <div className="activity_title">Ngày kết thúc:</div>
                                     <div className="activity_details">{acitivities.endDate}</div>
-                                    <div className="update_text" onClick={() => setShowEndDate(true)}>update</div>
+                                    <div className="update_text" onClick={() => setShowEndDate(true)}>sửa</div>
+                                </div>
+                            }
+                            {showIndex == index && showCategory == true ?
+                                <div className="choose_item_place">
+                                    <div className="off_item" onClick={() => setShowCategory(false)}>X</div>
+                                    <div className="choose_item_title">Sửa mục hoạt động: {acitivities.actName}</div>
+                                    <div className="item_list">
+                                        {listItem?.map((item, index) => {
+                                            return (
+                                                <div className="item_detail">
+                                                    <div className="item_title">{index + 1}. {item.name}</div>
+                                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                                    {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
+
+                                                </div>
+                                            )
+                                        })}
+                                        <div className="filter_button_place"><button className="filter_button" onClick={() => filterChosenItemsAct(acitivities._id)}>Lưu</button></div>
+                                    </div>
+                                </div>
+                                :
+                                <div className="activity_info">
+                                    <div className="activity_title">Thuộc mục: </div>
+                                    <div className="activity_details" style={{ gap: "2em" }}>{acitivities.filterList?.map((item, index) => {
+                                        return (
+                                            <div className="item">{acitivities.filterList[index]}</div>
+                                        )
+                                    })}</div>
+                                    <div className="update_text" onClick={() => setShowCategory(true)}>sửa</div>
                                 </div>
                             }
 
@@ -461,13 +521,13 @@ const MobileFilter = ({ searchingResult, setShowInput, showInput, addItem, listI
                         <input type="text" placeholder="Nhập tên hoạt động" className="searching_input" onChange={(e) => searchingResult(e.target.value)} />
                     </div>
                     <div className="add_item" onClick={() => setShowInput(!showInput)}>+Thêm mục</div>
-                    {showInput == true && <input type="text" className="add_input" placeholder="Thêm mục" onKeyDown={(e) => { if (e.key == "Enter") { addItem(e.target.value) } }} />}
+                    {showInput == true && <input type="text" className="add_input" placeholder="+Thêm mục" onKeyDown={(e) => { if (e.key == "Enter") { addItem(e.target.value) } }} />}
                     <div className="item_list">
                         {listItem?.map((item, index) => {
                             return (
                                 <div className="item_detail">
                                     <div className="item_title">{index + 1}. {item.name}</div>
-                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>Xóa</button>
                                     {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
 
                                 </div>
@@ -479,7 +539,7 @@ const MobileFilter = ({ searchingResult, setShowInput, showInput, addItem, listI
                         </div>
 
                     </div>
-                    
+
                 </div>}
         </div>
     )

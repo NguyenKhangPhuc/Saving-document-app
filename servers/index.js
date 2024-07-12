@@ -242,3 +242,13 @@ app.post('/change-pw', (req, res) => {
         })
         .catch(err => console.log(err))
 })
+app.post('/update-filterList', (res, req) => {
+    const [id, filterList] = req.body
+    InfoModel.updateOne({ _id: id }, { filterList: filterList })
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})

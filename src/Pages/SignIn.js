@@ -65,8 +65,12 @@ function SignIn() {
                     </div>
                     <div className="sign_in_position">
                         <div className="sign_in_title">ĐĂNG NHẬP</div>
-                        <input className="email_input" placeholder="Tên đăng nhập" type="text" onChange={(e) => setSignInEmail(e.target.value)}></input>
-                        <input className="password_input" placeholder="Mật khẩu" type="password" onChange={(e) => setSignInPassword(e.target.value)} />
+                        <div className="email_input_place">
+                            <input className="email_input" placeholder="Tên đăng nhập" type="text" onChange={(e) => setSignInEmail(e.target.value)}></input>
+                        </div>
+                        <div className="password_input_place">
+                            <input className="password_input" placeholder="Mật khẩu" type="password" onChange={(e) => setSignInPassword(e.target.value)} />
+                        </div>
                         <div className="change_password" onClick={() => navigate('/change-password')}>Quên mật khẩu ?</div>
                         <button class='sign_in_button' onKeyDown={(e) => { if (e.key == "Enter") { signIn() } }} onClick={(e) => signIn(e)} >
                             <span>Đăng nhập</span>

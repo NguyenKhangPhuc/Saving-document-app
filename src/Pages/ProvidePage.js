@@ -95,23 +95,7 @@ function ProvidePage() {
     return (
         <div className="provide_page_layout">
             <Header />
-            {showItem == true && <div className="choose_item_place">
-                <div className="off_item" onClick={() => setShowItem(false)}>X</div>
-                <div className="choose_item_title">Chọn mục</div>
-                <div className="item_list">
-                    {itemList?.map((item, index) => {
-                        return (
-                            <div className="item_detail">
-                                <div className="item_title">{index + 1}. {item.name}</div>
-                                <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
-                                {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
-
-                            </div>
-                        )
-                    })}
-                    <div className="filter_button_place"><button className="filter_button" onClick={() => filterChosenItems()}>Lưu</button></div>
-                </div>
-            </div>}
+            <Category showItem={showItem} setShowItem={setShowItem} itemList={itemList} deleteItem={deleteItem} chosenItem={chosenItem} filterChosenItems={filterChosenItems} />
 
             <div className="center">
                 <div className="input_place_1">
@@ -164,5 +148,28 @@ function ProvidePage() {
             <Introduction />
         </div >
     );
+}
+export const Category = ({ showItem, setShowItem, itemList, deleteItem, chosenItem, filterChosenItems }) => {
+    return (
+        <div>
+            {showItem == true && <div className="choose_item_place">
+                <div className="off_item" onClick={() => setShowItem(false)}>X</div>
+                <div className="choose_item_title">Chọn mục</div>
+                <div className="item_list">
+                    {itemList?.map((item, index) => {
+                        return (
+                            <div className="item_detail">
+                                <div className="item_title">{index + 1}. {item.name}</div>
+                                <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
+
+                            </div>
+                        )
+                    })}
+                    <div className="filter_button_place"><button className="filter_button" onClick={() => filterChosenItems()}>Lưu</button></div>
+                </div>
+            </div>}
+        </div>
+    )
 }
 export default ProvidePage
