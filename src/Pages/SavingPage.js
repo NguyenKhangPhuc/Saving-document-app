@@ -9,7 +9,7 @@ import Introduction from "../Small-Elements/Introduction";
 import { Category } from "./ProvidePage";
 function SavingPage() {
     const navigate = useNavigate()
-
+    let [newFilter, setNewFilter] = useState(null)
     let [list, setList] = useState([])
     let [listItem, setListItem] = useState([])
     let [data, setData] = useState(null)
@@ -257,10 +257,16 @@ function SavingPage() {
                 }
             }
         })
-        setFilterList(filterList)
-        await axios.post(url + '/update-filterList', { id, filterList })
-            .then(result => {
-                console.log(result)
+        newFilter = filterList
+        setNewFilter(newFilter)
+        console.log(filterList)
+        console.log(id)
+        await axios.post(url + '/update-filterList', { id, newFilter })
+            .then(res => {
+                console.log(res)
+                if (res) {
+                    navigate('/home')
+                }
             })
             .catch(err => console.log(err))
     }
@@ -441,7 +447,7 @@ function SavingPage() {
                                             return (
                                                 <div className="item_detail">
                                                     <div className="item_title">{index + 1}. {item.name}</div>
-                                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                                    <button className="delete_item" onClick={() => deleteItem(item.name)}>xóa</button>
                                                     {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
 
                                                 </div>

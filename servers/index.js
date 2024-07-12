@@ -145,6 +145,15 @@ app.post('/update-name', (req, res) => {
         .catch(err => console.log(err))
 })
 
+app.post('/update-filterList', (req, res) => {
+    const { id, newFilter } = req.body;
+    InfoModel.updateOne({ _id: id }, { filterList: newFilter })
+        .then(result => res.json(result))
+        .catch(err => {
+            console.error('Error updating filter list in database:', err);
+            res.status(500).json({ error: 'Internal Server Error' })
+        });
+});
 app.get('/get-item', (req, res) => {
     ItemModel.find({})
         .then(result => {
@@ -241,14 +250,4 @@ app.post('/change-pw', (req, res) => {
             res.json(result)
         })
         .catch(err => console.log(err))
-})
-app.post('/update-filterList', (res, req) => {
-    const [id, filterList] = req.body
-    InfoModel.updateOne({ _id: id }, { filterList: filterList })
-        .then(result => {
-            res.json(result)
-        })
-        .catch(err => {
-            console.log(err)
-        })
 })
