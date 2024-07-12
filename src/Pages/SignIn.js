@@ -20,7 +20,7 @@ function SignIn() {
             .then(res => {
                 data = res.data
                 setData(data)
-                console.log(data)
+               
             })
             .catch(err => console.log(err))
     }, [])
