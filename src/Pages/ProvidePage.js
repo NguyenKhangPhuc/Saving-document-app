@@ -29,14 +29,14 @@ function ProvidePage() {
                 setItemId(itemId)
                 itemList = res.data[0].itemList
                 setItemList(itemList)
-                console.log(itemList)
+                
             })
             .catch(err => console.log(err))
     }, [])
     const saveInfo = async () => {
         await axios.post(url, { actName, actText, actImgs, mediaUrl, actBrief, actAssessment, form, interactionNum, startDate, endDate, filterList })
             .then(result => {
-                console.log(result)
+               
                 if (result) {
                     navigate('/saving-page')
                 }
@@ -51,7 +51,7 @@ function ProvidePage() {
         setItemList(itemList)
         await axios.post(url + '/delete-item', { itemId, itemList })
             .then(result => {
-                console.log(result)
+                
             })
             .catch(err => console.log(err))
     }
@@ -89,7 +89,7 @@ function ProvidePage() {
             }
         })
         setFilterList(filterList)
-        console.log(filterList)
+        
         saveInfo()
     }
     return (

@@ -44,7 +44,7 @@ function SavingPage() {
             .then(res => {
                 list = res.data
                 setList(list)
-                console.log(list)
+            
                 data = res.data
                 setData(data)
             })
@@ -56,7 +56,7 @@ function SavingPage() {
                 setItemId(itemId)
                 listItem = res.data[0].itemList
                 setListItem(listItem)
-                console.log(listItem)
+              
             })
             .catch(err => console.log(err))
     }, [])
@@ -71,7 +71,7 @@ function SavingPage() {
     const saveUpdateText = async (id) => {
         await axios.post(url + '/update-text', { id, updateText })
             .then(res => {
-                console.log(res)
+             
                 if (res) {
                     navigate('/home')
                 }
@@ -81,7 +81,7 @@ function SavingPage() {
     const saveUpdateImgs = async (id) => {
         await axios.post(url + '/update-imgs', { id, updateImgs })
             .then(res => {
-                console.log(res)
+                
                 if (res) {
                     navigate('/home')
                 }
@@ -91,7 +91,7 @@ function SavingPage() {
     const saveUpdateMediaUrl = async (id) => {
         await axios.post(url + '/update-mediaUrl', { id, updateMediaUrl })
             .then(res => {
-                console.log(res)
+               
                 if (res) {
                     navigate('/home')
                 }
@@ -101,7 +101,7 @@ function SavingPage() {
     const saveUpdateBrief = async (id) => {
         await axios.post(url + '/update-brief', { id, updateBrief })
             .then(res => {
-                console.log(res)
+                
                 if (res) {
                     navigate('/home')
                 }
@@ -111,7 +111,6 @@ function SavingPage() {
     const saveUpdateAssessment = async (id) => {
         await axios.post(url + '/update-assessment', { id, updateAssessment })
             .then(res => {
-                console.log(res)
                 if (res) {
                     navigate('/home')
                 }
@@ -121,7 +120,7 @@ function SavingPage() {
     const saveUpdateForm = async (id) => {
         await axios.post(url + '/update-form', { id, updateForm })
             .then(res => {
-                console.log(res)
+              
                 if (res) {
                     navigate('/home')
                 }
@@ -131,7 +130,7 @@ function SavingPage() {
     const saveUpdateInteract = async (id) => {
         await axios.post(url + '/update-intNum', { id, updateInteract })
             .then(res => {
-                console.log(res)
+              
                 if (res) {
                     navigate('/home')
                 }
@@ -141,7 +140,7 @@ function SavingPage() {
     const saveUpdateStartDate = async (id) => {
         await axios.post(url + '/update-startDate', { id, updateStartDate })
             .then(res => {
-                console.log(res)
+             
                 if (res) {
                     navigate('/home')
                 }
@@ -151,7 +150,7 @@ function SavingPage() {
     const saveUpdateEndDate = async (id) => {
         await axios.post(url + '/update-endDate', { id, updateEndDate })
             .then(res => {
-                console.log(res)
+            
                 if (res) {
                     navigate('/home')
                 }
@@ -161,7 +160,7 @@ function SavingPage() {
     const saveUpdateTitle = async (id) => {
         await axios.post(url + '/update-name', { id, updateTitle })
             .then(res => {
-                console.log(res)
+              
                 if (res) {
                     navigate('/home')
                 }
@@ -172,7 +171,7 @@ function SavingPage() {
         const result = data?.filter((act, index) => {
             return act.actName.toLowerCase().includes(value.toLowerCase())
         })
-        console.log(result)
+   
         setList(result)
     }
     const addItem = async (value) => {
@@ -189,7 +188,7 @@ function SavingPage() {
         setListItem(listItem)
         await axios.post(url + '/delete-item', { itemId, listItem })
             .then(result => {
-                console.log(result)
+          
             })
             .catch(err => console.log(err))
     }
@@ -227,12 +226,12 @@ function SavingPage() {
             }
         })
         setFilterList(filterList)
-        console.log(filterList)
+
 
         const filterActResult = data?.filter((act, index) => {
             return filterList.every(e => act.filterList.includes(e))
         })
-        console.log(filterActResult)
+    
         list = filterActResult
         setList(list)
     }
@@ -259,11 +258,10 @@ function SavingPage() {
         })
         newFilter = filterList
         setNewFilter(newFilter)
-        console.log(filterList)
-        console.log(id)
+       
         await axios.post(url + '/update-filterList', { id, newFilter })
             .then(res => {
-                console.log(res)
+      
                 if (res) {
                     navigate('/home')
                 }
