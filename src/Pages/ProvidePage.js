@@ -160,7 +160,7 @@ export const Category = ({ showItem, setShowItem, itemList, deleteItem, chosenIt
                         return (
                             <div className="item_detail">
                                 <div className="item_title">{index + 1}. {item.name}</div>
-                                <button className="delete_item" onClick={() => deleteItem(item.name)}>delete</button>
+                                <button className="delete_item" onClick={() => deleteItem(item.name)}>Xóa</button>
                                 {item.chose == false ? <div className="chosen_item_x" onClick={() => chosenItem(index)}></div> : <div className="chosen_item_y" onClick={() => chosenItem(index)}>✔</div>}
 
                             </div>
